@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //CALCULAR TARIFA DE UM TAXI
+        const OVERNIGHT_FIRE = 3.9;
+        const SUNDAY_FIRE = 3;
+        const NORMAL_FIRE = 2;
+        const SUNDAY_CODE = 0;
+        const OVERNIGHT_START = 22;
+        const OVERNIGHT_END = 6;
+
+        const calculateTrip = function (date, distance){
+            if (isOvernight(date)){
+                return calculateTotal(distance, OVERNIGHT_FIRE);
+            }
+            if (isSunday(date)){
+                return calculateTotal(distance, SUNDAY_FIRE);
+            }
+            return calculateTotal(distance, NORMAL_FIRE); 
+        }
+        /*const calculateTrip = function (date, distance){
+            if (isOvernight(date)) return calculateTotal(distance, OVERNIGHT_FIRE);
+            if (isSunday(date)) return calculateTotal(distance, SUNDAY_FIRE);
+            return calculateTotal(distance, NORMAL_FIRE);
+        }*/
+
+        const isOvernight = function (date){
+            return date.getHours() > OVERNIGHT_START || date.getHours() < OVERNIGHT_END;
+        }
+
+        const isSunday = function (date){
+            return date.getDay() === SUNDAY_CODE;
+        }
+
+        const calculateTotal = function(distance, fare){
+            return distance * fare
+        }
+    
+        console.log(calculateTrip(new Date("2018-09-20T23:00:00"), 10) === 39);
+        console.log(calculateTrip(new Date("2018-09-20T10:00:00"), 10) === 20);
+        console.log(calculateTrip(new Date("2018-09-23T10:00:00"), 10) === 30);
+        const ageRange =  function (idade) {
+
+            const IDOSO = idade >= 65;
+            const ADULTO = idade >= 18 && idade < 65;
+            const ADOLESCENTE = idade >= 14 && idade < 18;
+            const PREADOLESCENTE = idade >= 12 && idade < 14;
+            const CRIANCA =  idade < 12;
+
+            if (IDOSO) return 'Idoso';
+            if (ADULTO) return 'Adulto';
+            if (ADOLESCENTE) return 'Adolescente';
+            if (PREADOLESCENTE) return 'Pré-adolescente';
+            if (CRIANCA) return 'Criança';
+           
+        }
+        var rangeAge = ageRange(10);
+
+        // const sexClint = function (sex) {
+        //     return (sex === 'M') ? 'Masculino' : 'Feminino';
+        // }
+        //VERIFICAR O SEXO DE UMA PESSOA
+        const sexClint = (sex) => (sex === 'M') ? 'Masculino' : 'Feminino';
+
+        //VERIFICAR SE É UM NÚMERO PRIMO
+        const isPrime = (number) => {
+            const notPrime = number % 2 === 0;
+            if (number === 1) return 'Não é um número primo!';
+            if (number === 2) return "É um número primo";
+            return (notPrime) ? 'Não é um número primo' : 'É um número primo';
+        }
+        
+        //INSERIR OS VALORES DE UM OBJETO NO CONSOLE
+        const objTest = () => {
+            var endereco = {
+                rua: "Rua dos pinheiros",
+                numero: 1293,
+                bairro: "Centro",
+                cidade: "São Paulo",
+                uf: "SP"
+            };
+            console.log('o usuário mora em '+endereco.cidade+', no bairro '+endereco.bairro+', na rua'+endereco.rua+' com nº '+endereco.numero);
+        }
+        objTest();
+        // LISTA DE NÚMEROS PARES EM UM INTERVALO
+        const pairList = (numberInit, numberEnd) => {
+            for(var incrementPairList = numberInit; incrementPairList < numberEnd; incrementPairList++ ){
+                if((incrementPairList %  2 === 0) && incrementPairList !== 0) console.log(incrementPairList)
+            }
+        }
+        pairList(0, 30);
+
+
+        console.log(rangeAge+' e '+sexClint('M'));
+        console.log('01 '+isPrime(1));
+        console.log('02 '+isPrime(2));
+        console.log('04 '+isPrime(4));
+        console.log('07 '+isPrime(7));
+        console.log('10 '+isPrime(10));
+        console.log('17 '+isPrime(17));
+    </script>
+</body>
+</html>
