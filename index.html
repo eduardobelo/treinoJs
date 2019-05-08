@@ -62,12 +62,13 @@
            
         }
         var rangeAge = ageRange(10);
-
+       
         // const sexClint = function (sex) {
         //     return (sex === 'M') ? 'Masculino' : 'Feminino';
         // }
         //VERIFICAR O SEXO DE UMA PESSOA
         const sexClint = (sex) => (sex === 'M') ? 'Masculino' : 'Feminino';
+        console.log(rangeAge+' e '+sexClint('M'));
 
         //VERIFICAR SE É UM NÚMERO PRIMO
         const isPrime = (number) => {
@@ -76,6 +77,12 @@
             if (number === 2) return "É um número primo";
             return (notPrime) ? 'Não é um número primo' : 'É um número primo';
         }
+        console.log('01 '+isPrime(1));
+        console.log('02 '+isPrime(2));
+        console.log('04 '+isPrime(4));
+        console.log('07 '+isPrime(7));
+        console.log('10 '+isPrime(10));
+        console.log('17 '+isPrime(17));
         
         //INSERIR OS VALORES DE UM OBJETO NO CONSOLE
         const objTest = () => {
@@ -89,6 +96,7 @@
             console.log('o usuário mora em '+endereco.cidade+', no bairro '+endereco.bairro+', na rua'+endereco.rua+' com nº '+endereco.numero);
         }
         objTest();
+
         // LISTA DE NÚMEROS PARES EM UM INTERVALO
         const pairList = (numberInit, numberEnd) => {
             for(var incrementPairList = numberInit; incrementPairList < numberEnd; incrementPairList++ ){
@@ -97,14 +105,40 @@
         }
         pairList(0, 30);
 
+        //Verificar a existência de skill em um array
+        const skills = ["Javascript", "ReactJS", "React Native"];
+        const skillHas = (skill) => (skills.indexOf(skill) === 0) ? "O Skill existe no array" : "O Skill não existe no array";
+        // const skillHas = (skill) => {
+        //     return (skills.indexOf(skill) === 0) ? "O Skill existe no array" : "O Skill não existe no array";
+        // }    
+        console.log(skillHas('dasdsa'));
 
-        console.log(rangeAge+' e '+sexClint('M'));
-        console.log('01 '+isPrime(1));
-        console.log('02 '+isPrime(2));
-        console.log('04 '+isPrime(4));
-        console.log('07 '+isPrime(7));
-        console.log('10 '+isPrime(10));
-        console.log('17 '+isPrime(17));
+        //VETOR DE OBJETOS
+        var usuarios = [
+            {
+                nome: "Diego",
+                habilidades: ["Javascript", "ReactJS", "Redux"]
+            },
+            {
+                nome: "Gabriel",
+                habilidades: ["VueJS", "Ruby on Rails", "Elixir"]
+            }
+        ];
+
+        const userSkills = () => {
+            /*for (var auxUsers = 0; auxUsers < usuarios.length; auxUsers++){
+                console.log(usuarios[auxUsers].nome+' possui habilidades em: '+usuarios[auxUsers].habilidades.join(', '));
+            }*/
+            // usuarios.map((item, index)=>{
+            //     console.log(item.nome + ' possui conhecimento de ' + item.habilidades.join(', '))             
+            // })
+            usuarios.forEach((item, index)=>{
+                console.log(item.nome + ' possui habilidades em ' + item.habilidades.join(', ')+'.')             
+            })
+        }
+       
+        userSkills();
+        
     </script>
 </body>
 </html>
