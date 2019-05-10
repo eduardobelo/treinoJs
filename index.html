@@ -7,6 +7,13 @@
     <title>Document</title>
 </head>
 <body>
+
+    <div id="app">
+        <ul></ul>
+        <input type="text" placeholder="Digite ...">
+        <button type="button">Adicionar</button>
+    </div>
+
     <script>
         //CALCULAR TARIFA DE UM TAXI
         const OVERNIGHT_FIRE = 3.9;
@@ -126,19 +133,62 @@
         ];
 
         const userSkills = () => {
-            /*for (var auxUsers = 0; auxUsers < usuarios.length; auxUsers++){
+            console.log("");
+            for (var auxUsers = 0; auxUsers < usuarios.length; auxUsers++){
                 console.log(usuarios[auxUsers].nome+' possui habilidades em: '+usuarios[auxUsers].habilidades.join(', '));
-            }*/
-            // usuarios.map((item, index)=>{
-            //     console.log(item.nome + ' possui conhecimento de ' + item.habilidades.join(', '))             
-            // })
+            }
+            console.log("");
+
+            usuarios.map((item, index)=>{
+                console.log(item.nome + ' possui conhecimento de ' + item.habilidades.join(', '))             
+            })
+            console.log("");
+
             usuarios.forEach((item, index)=>{
                 console.log(item.nome + ' possui habilidades em ' + item.habilidades.join(', ')+'.')             
-            })
+            });
+            console.log("");
+            for(user of usuarios){
+                console.log(user.nome + ' possui habilidades em ' + user.habilidades.join(', ')+'.')             
+            };
+            console.log("");
         }
        
         userSkills();
         
+        // Criar lista de itens via javascript
+        const listElement = document.querySelector('#app ul');
+        const inputElement = document.querySelector('#app input');
+        const buttonElement = document.querySelector('#app button');
+
+        var listStudy= [
+            'Estudar Javascript',
+            'Estudar Inglês',
+            'Estudar React',
+            'Estudar Angular'
+        ];
+        const renderListStudy = () => {
+            listElement.innerHTML = '';
+            for(list of listStudy){
+                var listStudyElement = document.createElement('li');
+                var deleteItemList = document.createElement('a');
+
+                var textList = document.createTextNode(list);
+
+                listStudyElement.appendChild(textList);
+                listStudyElement.appendChild(deleteItemList);
+                listElement.appendChild(listStudyElement);
+            }
+        }
+        renderListStudy();
+
+        const addItemList = () => {
+            var listText = inputElement.value;
+            listStudy.push(listText);
+            inputElement.value = '';
+            renderListStudy();
+        }
+        buttonElement.onclick = addItemList;
     </script>
 </body>
 </html>
