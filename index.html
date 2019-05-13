@@ -10,7 +10,7 @@
 
     <div id="app">
         <ul></ul>
-        <input type="text" placeholder="Digite ...">
+        <input type="text" placeholder="Digite ..." autofocus>
         <button type="button">Adicionar</button>
     </div>
 
@@ -157,26 +157,28 @@
         userSkills();
         
         // Criar lista de itens via javascript
+
+        //let $ = document.querySelector.bind(document) --> Fazendo ficar parecido com jquery;
         const listElement = document.querySelector('#app ul');
         const inputElement = document.querySelector('#app input');
         const buttonElement = document.querySelector('#app button');
 
-        var listStudy= [
-            'Estudar Javascript',
-            'Estudar Inglês',
-            'Estudar React',
-            'Estudar Angular'
-        ];
+        var listStudy= JSON.parse(localStorage.getItem('List_study')) || [];
         const renderListStudy = () => {
             listElement.innerHTML = '';
             for(list of listStudy){
                 var listStudyElement = document.createElement('li');
-                var deleteItemList = document.createElement('a');
-
                 var textList = document.createTextNode(list);
 
+                var linkElement = document.createElement('a');
+                linkElement.setAttribute('href', '#');
+                var pos = listStudy.indexOf(list);
+                linkElement.setAttribute('onclick','deleteList('+ pos +')');
+                var linkText = document.createTextNode('Excluir');
+
+                linkElement.appendChild(linkText);
                 listStudyElement.appendChild(textList);
-                listStudyElement.appendChild(deleteItemList);
+                listStudyElement.appendChild(linkElement);
                 listElement.appendChild(listStudyElement);
             }
         }
@@ -187,8 +189,19 @@
             listStudy.push(listText);
             inputElement.value = '';
             renderListStudy();
+            saveStorage();
         }
         buttonElement.onclick = addItemList;
+
+        const deleteList = (pos) => {
+            listStudy.splice(pos,1);
+            renderListStudy();
+            saveStorage();
+        }
+
+        const saveStorage = () => {
+            localStorage.setItem('List_study', JSON.stringify(listStudy));
+        }
     </script>
 </body>
 </html>
