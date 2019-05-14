@@ -5,15 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <style>
+        .github{
+            position: relative;
+            display: table;
+            width: 100%;
+            height: auto;
+            margin-top: 40px;
+        }
+    </style>
 </head>
 <body>
 
     <div id="app">
         <ul></ul>
-        <input type="text" placeholder="Digite ..." autofocus>
+        <input type="text" placeholder="Digite um curso ...">
         <button type="button">Adicionar</button>
     </div>
 
+    <div class="github">
+        <input type="text" placeholder="Digite o usuário" autofocus>
+        <button type="button">Incluir</button>
+        <ul></ul>
+    </div>
     <script>
         //CALCULAR TARIFA DE UM TAXI
         const OVERNIGHT_FIRE = 3.9;
@@ -202,6 +216,62 @@
         const saveStorage = () => {
             localStorage.setItem('List_study', JSON.stringify(listStudy));
         }
+
+        // PROMISE
+        function checaIdade(idade) {
+            // Retornar uma promise
+            return new Promise(function(resolve, reject){
+                
+                setTimeout( () => {
+                    if (idade >= 18){
+                        resolve();
+                    }else{
+                        reject();
+                    }
+                },2000);
+                
+            });
+        }
+        checaIdade(14).then(function() {
+            console.log("Maior que 18");
+        }).catch(function() {
+            console.log("Menor que 18");
+        });
+
+        // Ajax 
+        
+        const listElementAjax = document.querySelector('.github ul');
+        const inputElementAjax = document.querySelector('.github input');
+        const buttonElementAjax = document.querySelector('.github button');
+
+        
+        const promiseAjax = (user) => {
+            return new Promise (function (resolve, reject){
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', ' https://api.github.com/users/'+ user +'/repos');
+                xhr.send();
+                xhr.onreadystatechange = () => {
+                    if(xhr.readyState == 4 && xhr.status == 200){
+                        console.log(JSON.parse(xhr.responseText));
+                        resolve();
+                    }else{
+                        reject();
+                    }
+                }
+            });
+        }
+
+        const addItemGit = () => {
+            var inputValue = inputElementAjax.value;
+            promiseAjax(inputValue).then(() => {
+                console.log('Usuário existente no Github');
+            }).catch(() => {
+                console.log('Usuário não existente ou problema no servidor do Github')
+            });
+        }
+        buttonElementAjax.onclick = addItemGit;
+        
+
     </script>
 </body>
 </html>
