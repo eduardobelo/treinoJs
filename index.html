@@ -13,6 +13,10 @@
             height: auto;
             margin-top: 40px;
         }
+        ul{
+            list-style: none;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
@@ -223,11 +227,12 @@
             return new Promise(function(resolve, reject){
                 
                 setTimeout( () => {
-                    if (idade >= 18){
+                    return idade >= 18 ? resolve() : reject();
+                    /*if (idade >= 18){
                         resolve();
                     }else{
                         reject();
-                    }
+                    }*/
                 },2000);
                 
             });
@@ -245,7 +250,7 @@
         const buttonElementAjax = document.querySelector('.github button');
 
         
-        const promiseAjax = (user) => {
+        /*const promiseAjax = (user) => {
             return new Promise (function (resolve, reject){
                 var xhr = new XMLHttpRequest();
                 xhr.open('GET', ' https://api.github.com/users/'+ user +'/repos');
@@ -280,8 +285,73 @@
             }).catch((error) => {
                 console.log(error)
             });
+        }*/
+
+        const renderRepositories = (repositories) => {
+            listElementAjax.innerHTML = '';
+                for (repos of repositories){
+                    var nameRepos = document.createTextNode(repos.name);
+                    var liElement = document.createElement('li');
+                    
+                    liElement.appendChild(nameRepos);
+                    listElementAjax.appendChild(liElement);
+                } 
+        };
+
+        const renderLoading = () => {
+            listElementAjax.innerHTML = '';
+            var loadingElement = document.createTextNode('Carregando ...');
+            var liElement = document.createElement('li');
+
+            liElement.appendChild(loadingElement);
+            listElementAjax.appendChild(liElement);
+        };
+
+        const renderError = () => {
+            listElementAjax.innerHTML = '';
+            var errorElement = document.createTextNode('Usuário sem repositório ...');
+            var liElement = document.createElement('li');
+
+            liElement.appendChild(errorElement);
+            listElementAjax.appendChild(liElement);
+        };
+
+        const renderErrorServer = () => {
+            listElementAjax.innerHTML = '';
+            var errorElement = document.createTextNode('Erro interno do servidor ou usuário não inválido...');
+            var liElement = document.createElement('li');
+
+            liElement.appendChild(errorElement);
+            listElementAjax.appendChild(liElement);
+        };
+
+        const getRepositories = () => {
+            var user = inputElementAjax.value;
+            
+            if (!user) return;
+
+            renderLoading();
+
+            var xhr = new XMLHttpRequest();
+                xhr.open('GET', ' https://api.github.com/users/'+ user +'/repos', true);
+                xhr.send();
+                xhr.onreadystatechange = () => {
+                    if(xhr.readyState === 4){
+                        if (xhr.status === 200){
+                            var dataRepos = JSON.parse(xhr.responseText);
+                            if (dataRepos.length != 0) {
+                                renderRepositories(dataRepos);
+                            }else{
+                                renderError();
+                            }    
+                        }else{
+                            renderErrorServer();
+                        }    
+                    }
+                }
+
         }
-        buttonElementAjax.onclick = addItemGit;
+        buttonElementAjax.onclick = getRepositories;
         
 
     </script>
