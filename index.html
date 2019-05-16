@@ -255,8 +255,12 @@
                         if (xhr.status === 200){
                             var dataRepos = JSON.parse(xhr.responseText);
                             if (dataRepos.length != 0){
+                                listElementAjax.innerHTML = '';
                                 for (nameRepos of dataRepos){
-                                    resolve(console.log(nameRepos.name));
+                                    var listRepos = document.createElement('li');
+                                    var textListRepos = document.createTextNode(nameRepos.name)
+                                    listRepos.appendChild(textListRepos);
+                                    resolve(listElementAjax.appendChild(listRepos));
                                 }   
                             }else{
                                 reject('Usuário invalido!');
