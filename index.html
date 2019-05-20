@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <style>
-        .github{
+        .github, .user{
             position: relative;
             display: table;
             width: 100%;
@@ -32,6 +32,14 @@
         <button type="button">Incluir</button>
         <ul></ul>
     </div>
+
+    <div class="user">
+        <input type="text" placeholder="Digite o usuário 2" autofocus>
+        <button type="button">Incluir</button>
+        <ul></ul>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script>
         //CALCULAR TARIFA DE UM TAXI
         const OVERNIGHT_FIRE = 3.9;
@@ -352,7 +360,38 @@
 
         }
         buttonElementAjax.onclick = getRepositories;
+
+
+        const inputUser = document.querySelector('.user input');
+        const buttonUser = document.querySelector('.user button');
+        const listaname = JSON.parse(localStorage.getItem('users')) || [];
+        const consoleUser = (name) => {
+            listaname.push(name);
+            saveUser(listaname);
+            renderUser();
+            // $('.user ul').empty();
+            // $('.user ul').append('<li>'+name+'</li>');
+        }
         
+        const saveUser = (listaname) => {
+            localStorage.setItem('users', JSON.stringify(listaname));
+        }
+
+        const renderUser = () => {
+            $('.user ul').empty();
+            for (user of listaname){
+                $('.user ul').append('<li>'+user+'</li>');
+            }
+        }
+        renderUser();
+        
+        const userProcess = (callback) => {
+            var name = inputUser.value;
+            callback(name);
+        }
+        $('.user button').on('click', () => {
+            userProcess(consoleUser);
+        });
 
     </script>
 </body>
