@@ -6,22 +6,24 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <style>
-        .github, .user{
+        #app, .github, .user, .chas{
             position: relative;
             display: table;
-            width: 100%;
+            width: 23%;
             height: auto;
             margin-top: 40px;
+            float: left;
+            margin: 15px 10px;
         }
         ul{
             list-style: none;
             text-decoration: none;
         }
-        .github li, .user li{
+        .github li, .user li, .chas li{
             display: table;
             width: 100%;
         }
-        .github li a, .user li a{
+        .github li a, .user li a, .chas li a{
         padding: 10px;
         text-decoration: none;
         color: red;
@@ -31,9 +33,9 @@
 <body>
 
     <div id="app">
-        <ul></ul>
         <input type="text" placeholder="Digite um curso ...">
         <button type="button">Adicionar</button>
+        <ul></ul>
     </div>
 
     <div class="github">
@@ -44,6 +46,12 @@
 
     <div class="user">
         <input type="text" placeholder="Digite um nome" autofocus>
+        <button type="button">Incluir</button>
+        <ul></ul>
+    </div>
+
+    <div class="chas">
+        <input type="text" placeholder="Digite um cha" autofocus>
         <button type="button">Incluir</button>
         <ul></ul>
     </div>
@@ -169,20 +177,24 @@
 
         const userSkills = () => {
             console.log("");
+            console.log("FOR tradicional");
             for (var auxUsers = 0; auxUsers < usuarios.length; auxUsers++){
                 console.log(usuarios[auxUsers].nome+' possui habilidades em: '+usuarios[auxUsers].habilidades.join(', '));
             }
-            console.log("");
 
+            console.log("");
+            console.log("MAP");
             usuarios.map((item, index)=>{
                 console.log(item.nome + ' possui conhecimento de ' + item.habilidades.join(', '))             
             })
-            console.log("");
 
+            console.log("");
+            console.log("forEach");
             usuarios.forEach((item, index)=>{
                 console.log(item.nome + ' possui habilidades em ' + item.habilidades.join(', ')+'.')             
             });
             console.log("");
+            console.log("for of");
             for(user of usuarios){
                 console.log(user.nome + ' possui habilidades em ' + user.habilidades.join(', ')+'.')             
             };
@@ -371,6 +383,9 @@
         buttonElementAjax.onclick = getRepositories;
 
 
+
+
+
         const inputUser = document.querySelector('.user input');
         const buttonUser = document.querySelector('.user button');
         const listaname = JSON.parse(localStorage.getItem('users')) || [];
@@ -412,6 +427,52 @@
             var posRemove = $('.user ul a').attr('data-pos');
             removeUser(posRemove);
         })
+
+
+
+
+        var listChas = JSON.parse(localStorage.getItem('Chas')) || [];
+        const initChas = () => {
+            $('.chas button').on('click', () => {
+                processAddChas(addChas);
+            }); 
+            renderChas();
+        } 
+
+        const addChas = (name) => {
+            $('.chas ul').empty();
+            listChas.push(name);
+            saveChas(listChas)
+            renderChas();
+        }
+
+        const processAddChas = (callback) => {
+            valueCha = $('.chas input').val();
+            callback(valueCha);
+        }
+
+        const renderChas = () => {
+            $('.chas ul').empty();
+            for (chas of listChas){
+                var positionArray = listChas.indexOf(chas);
+                $('.chas ul').append('<li>'+chas+'<a href="#" data-pos="'+positionArray+'"></li>')
+            }
+
+        }
+        
+        const removeChas = () => {
+
+        }
+
+        const saveChas = () => {
+            localStorage.setItem('Chas', JSON.stringify(listChas));
+        }
+
+        initChas();
+        
+       
+
+        
 
     </script>
 </body>
