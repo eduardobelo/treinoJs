@@ -17,6 +17,15 @@
             list-style: none;
             text-decoration: none;
         }
+        .github li, .user li{
+            display: table;
+            width: 100%;
+        }
+        .github li a, .user li a{
+        padding: 10px;
+        text-decoration: none;
+        color: red;
+        }
     </style>
 </head>
 <body>
@@ -28,13 +37,13 @@
     </div>
 
     <div class="github">
-        <input type="text" placeholder="Digite o usuário" autofocus>
+        <input type="text" placeholder="Usuário GitHub">
         <button type="button">Incluir</button>
         <ul></ul>
     </div>
 
     <div class="user">
-        <input type="text" placeholder="Digite o usuário 2" autofocus>
+        <input type="text" placeholder="Digite um nome" autofocus>
         <button type="button">Incluir</button>
         <ul></ul>
     </div>
@@ -365,12 +374,11 @@
         const inputUser = document.querySelector('.user input');
         const buttonUser = document.querySelector('.user button');
         const listaname = JSON.parse(localStorage.getItem('users')) || [];
-        const consoleUser = (name) => {
+        const addUser = (name) => {
             listaname.push(name);
-            saveUser(listaname);
             renderUser();
-            // $('.user ul').empty();
-            // $('.user ul').append('<li>'+name+'</li>');
+            saveUser(listaname);
+            inputUser.value = '';
         }
         
         const saveUser = (listaname) => {
@@ -380,18 +388,30 @@
         const renderUser = () => {
             $('.user ul').empty();
             for (user of listaname){
-                $('.user ul').append('<li>'+user+'</li>');
+                var pos = listaname.indexOf(user);
+                $('.user ul').append('<li>'+user+'<a href="#" data-pos="'+pos+'" >Excluir usuário</a></li>'); 
             }
         }
         renderUser();
-        
+
+        const removeUser = (pos) => {
+            listaname.splice(pos, 1);
+            renderUser();
+            saveUser(listaname);
+            inputUser.value = '';
+        }
+
         const userProcess = (callback) => {
             var name = inputUser.value;
             callback(name);
         }
         $('.user button').on('click', () => {
-            userProcess(consoleUser);
+            userProcess(addUser);
         });
+        $('.user ul a').on('click', () => {
+            var posRemove = $('.user ul a').attr('data-pos');
+            removeUser(posRemove);
+        })
 
     </script>
 </body>
