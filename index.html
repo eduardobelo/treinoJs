@@ -22,25 +22,31 @@
         .github li, .user li, .chas li{
             display: table;
             width: 100%;
+            float: left;
         }
         .github li a, .user li a, .chas li a{
         padding: 10px;
         text-decoration: none;
         color: red;
+        display: table;
+        float: left;
+        padding-top: 0;
+        }
+        .github li span, .user li span, .chas li span{
+            float: left;
         }
     </style>
 </head>
 <body>
+    <div class="github">
+        <input type="text" placeholder="Usuário GitHub">
+        <button type="button">Incluir</button>
+        <ul></ul>
+    </div>
 
     <div id="app">
         <input type="text" placeholder="Digite um curso ...">
         <button type="button">Adicionar</button>
-        <ul></ul>
-    </div>
-
-    <div class="github">
-        <input type="text" placeholder="Usuário GitHub">
-        <button type="button">Incluir</button>
         <ul></ul>
     </div>
 
@@ -203,52 +209,6 @@
        
         userSkills();
         
-        // Criar lista de itens via javascript
-
-        //let $ = document.querySelector.bind(document) --> Fazendo ficar parecido com jquery;
-        const listElement = document.querySelector('#app ul');
-        const inputElement = document.querySelector('#app input');
-        const buttonElement = document.querySelector('#app button');
-
-        var listStudy= JSON.parse(localStorage.getItem('List_study')) || [];
-        const renderListStudy = () => {
-            listElement.innerHTML = '';
-            for(list of listStudy){
-                var listStudyElement = document.createElement('li');
-                var textList = document.createTextNode(list);
-
-                var linkElement = document.createElement('a');
-                linkElement.setAttribute('href', '#');
-                var pos = listStudy.indexOf(list);
-                linkElement.setAttribute('onclick','deleteList('+ pos +')');
-                var linkText = document.createTextNode('Excluir');
-
-                linkElement.appendChild(linkText);
-                listStudyElement.appendChild(textList);
-                listStudyElement.appendChild(linkElement);
-                listElement.appendChild(listStudyElement);
-            }
-        }
-        renderListStudy();
-
-        const addItemList = () => {
-            var listText = inputElement.value;
-            listStudy.push(listText);
-            inputElement.value = '';
-            renderListStudy();
-            saveStorage();
-        }
-        buttonElement.onclick = addItemList;
-
-        const deleteList = (pos) => {
-            listStudy.splice(pos,1);
-            renderListStudy();
-            saveStorage();
-        }
-
-        const saveStorage = () => {
-            localStorage.setItem('List_study', JSON.stringify(listStudy));
-        }
 
         // PROMISE
         function checaIdade(idade) {
@@ -384,6 +344,57 @@
 
 
 
+        // Criar lista de itens via javascript
+
+        //let $ = document.querySelector.bind(document) --> Fazendo ficar parecido com jquery;
+        const listElement = document.querySelector('#app ul');
+        const inputElement = document.querySelector('#app input');
+        const buttonElement = document.querySelector('#app button');
+
+        var listStudy= JSON.parse(localStorage.getItem('List_study')) || [];
+        const renderListStudy = () => {
+            listElement.innerHTML = '';
+            for(list of listStudy){
+                var listStudyElement = document.createElement('li');
+                var textList = document.createTextNode(list);
+
+                var linkElement = document.createElement('a');
+                linkElement.setAttribute('href', '#');
+                var pos = listStudy.indexOf(list);
+                linkElement.setAttribute('onclick','deleteList('+ pos +')');
+                var linkText = document.createTextNode('Excluir');
+
+                linkElement.appendChild(linkText);
+                listStudyElement.appendChild(textList);
+                listStudyElement.appendChild(linkElement);
+                listElement.appendChild(listStudyElement);
+            }
+        }
+        renderListStudy();
+
+        const addItemList = () => {
+            var listText = inputElement.value;
+            listStudy.push(listText);
+            inputElement.value = '';
+            renderListStudy();
+            saveStorage();
+        }
+        buttonElement.onclick = addItemList;
+
+        const deleteList = (pos) => {
+            listStudy.splice(pos,1);
+            renderListStudy();
+            saveStorage();
+        }
+
+        const saveStorage = () => {
+            localStorage.setItem('List_study', JSON.stringify(listStudy));
+        }
+
+
+
+
+
 
 
         const inputUser = document.querySelector('.user input');
@@ -404,7 +415,7 @@
             $('.user ul').empty();
             for (user of listaname){
                 var pos = listaname.indexOf(user);
-                $('.user ul').append('<li>'+user+'<a href="#" data-pos="'+pos+'" >Excluir usuário</a></li>'); 
+                $('.user ul').append('<li><span>'+user+'</span><a href="#" data-pos="'+pos+'" >Excluir usuário</a></li>'); 
             }
         }
         renderUser();
@@ -423,7 +434,7 @@
         $('.user button').on('click', () => {
             userProcess(addUser);
         });
-        $('.user ul a').on('click', () => {
+        $('.user ul').on('click', 'a', () => {
             var posRemove = $('.user ul a').attr('data-pos');
             removeUser(posRemove);
         })
@@ -432,18 +443,24 @@
 
 
         var listChas = JSON.parse(localStorage.getItem('Chas')) || [];
-        const initChas = () => {
-            $('.chas button').on('click', () => {
-                processAddChas(addChas);
-            }); 
-            renderChas();
-        } 
+
+        const renderChas = () => {
+            $('.chas ul').empty();
+            for (chas of listChas){
+                var positionArray = listChas.indexOf(chas);
+                $('.chas ul').append('<li><span>'+chas+'</span><a href="#" data-pos="'+positionArray+'">Excluir item!</a></li>')
+            }
+
+        }
+        
+   
 
         const addChas = (name) => {
             $('.chas ul').empty();
             listChas.push(name);
             saveChas(listChas)
             renderChas();
+            $('.chas input').val('');
         }
 
         const processAddChas = (callback) => {
@@ -451,27 +468,31 @@
             callback(valueCha);
         }
 
-        const renderChas = () => {
-            $('.chas ul').empty();
-            for (chas of listChas){
-                var positionArray = listChas.indexOf(chas);
-                $('.chas ul').append('<li>'+chas+'<a href="#" data-pos="'+positionArray+'"></li>')
-            }
-
-        }
         
-        const removeChas = () => {
+        
 
+        const removeChas = (posArray) => {
+            listChas.splice(posArray, 1);
+            saveChas(posArray);
+            renderChas();
+            $('.chas input').val('');
         }
 
         const saveChas = () => {
             localStorage.setItem('Chas', JSON.stringify(listChas));
         }
 
-        initChas();
+        renderChas();
         
-       
-
+        $('.chas button').on('click', () => {
+            valueCha = $('.chas input').val();
+            addChas(valueCha);
+        }); 
+        
+        $('.chas ul').on('click', 'li a', () => {
+            posArray = $(this).attr('data-pos');
+            removeChas(posArray)
+        });
         
 
     </script>
