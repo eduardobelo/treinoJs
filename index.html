@@ -485,8 +485,7 @@
         renderChas();
         
         $('.chas button').on('click', () => {
-            valueCha = $('.chas input').val();
-            addChas(valueCha);
+            processAddChas(addChas);
         }); 
         
         $('.chas ul').on('click', 'li a', () => {
