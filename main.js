@@ -111,55 +111,52 @@ const Locations = [
     }
 ]
 
-const userData = [];
-const getUsers = (callback) => {
-
-   // for (var i =0; i < Users.length; i++){
-       for (user of Users){
-        //console.log(user);
-        userData.push(
-            {
-                'gender': user.gender, 
-                'name': {
-                    'title': user.name.title,
-                    'first': user.name.first,
-                    'last': user.name.last
-                },
-                'email':user.email,
-            }
-        );
-        //userData.splice()
-        callback(user.email)
-        //console.log(user);
-    }
-}
-
-const getInfos = (email) => {
-    for (info of Infos){
-        if(email == info.email){
-            userData.push(
+$(function() {
+    let userData = [];
+    const getUsers = (callback) => {
+    
+        for (user of Users){
+        //Users.map((user, index) => {    
+            ObjUser =
                 {
-                    'zipcode': info.zipcode
+                    'gender': user.gender, 
+                    'name': {
+                        'title': user.name.title,
+                        'first': user.name.first,
+                        'last': user.name.last
+                    },
+                    'email':user.email,
                 }
-
-            );
-        }
+            callback(user.email, ObjUser) 
+        };
     }
-    /*{
-        "zipcode": "24011",
-        "email": "rolf.hegdal@example.com",
-        "picture": {
-            "large": "https://randomuser.me/api/portraits/men/60.jpg",
-            "medium": "https://randomuser.me/api/portraits/med/men/60.jpg",
-            "thumbnail": "https://randomuser.me/api/portraits/thumb/men/60.jpg"
-        }
-    },*/
-
-}
-
-const getLocations = () => {
-
-}
-
-getUsers(getInfos);
-console.log(userData);
+    
+    const getInfos = (email, obj) => {
+        var infos = {};
+        //Infos.map((info, index) => {  
+        for (info of Infos){
+            if(email == info.email){
+                infos.zipcode = info.zipcode;      
+            }  
+        };
+        userData = Object.assign(obj,infos);
+        console.log(userData); 
+        /*{
+            "zipcode": "24011",
+            "email": "rolf.hegdal@example.com",
+            "picture": {
+                "large": "https://randomuser.me/api/portraits/men/60.jpg",
+                "medium": "https://randomuser.me/api/portraits/med/men/60.jpg",
+                "thumbnail": "https://randomuser.me/api/portraits/thumb/men/60.jpg"
+            }
+        },*/
+    
+    }
+    
+    const getLocations = () => {
+    
+    }
+    
+    getUsers(getInfos);
+    
+});
