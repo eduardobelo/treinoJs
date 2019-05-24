@@ -113,6 +113,7 @@ const Locations = [
 
 $(function() {
     let userData = [];
+    let userDataGeral = [];
     const getUsers = (callback) => {
         for (user of Users){ 
             ObjUser =
@@ -151,9 +152,10 @@ $(function() {
             } 
         }
         userData = Object.assign(infosData,locale);
-        console.log(userData);
+        userDataGeral.push(userData);
     }
-    
     getUsers(getInfos);
+    console.log(userDataGeral);
+    
     
 });
