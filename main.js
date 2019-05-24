@@ -114,9 +114,7 @@ const Locations = [
 $(function() {
     let userData = [];
     const getUsers = (callback) => {
-    
-        for (user of Users){
-        //Users.map((user, index) => {    
+        for (user of Users){ 
             ObjUser =
                 {
                     'gender': user.gender, 
@@ -127,34 +125,33 @@ $(function() {
                     },
                     'email':user.email,
                 }
-            callback(user.email, ObjUser) 
+            callback(user.email, ObjUser, getLocations) 
         };
     }
     
-    const getInfos = (email, obj) => {
-        var infos = {};
-        //Infos.map((info, index) => {  
+    const getInfos = (email, obj, callback) => {
+        var infos = {}; 
         for (info of Infos){
-            if(email == info.email){
-                infos.zipcode = info.zipcode;      
+            if(email == info.email) {
+                infos.zipcode = info.zipcode;  
+                infos.picture = info.picture;    
             }  
         };
-        userData = Object.assign(obj,infos);
-        console.log(userData); 
-        /*{
-            "zipcode": "24011",
-            "email": "rolf.hegdal@example.com",
-            "picture": {
-                "large": "https://randomuser.me/api/portraits/men/60.jpg",
-                "medium": "https://randomuser.me/api/portraits/med/men/60.jpg",
-                "thumbnail": "https://randomuser.me/api/portraits/thumb/men/60.jpg"
-            }
-        },*/
-    
+        
+        infosData = Object.assign(obj,infos);
+        callback(info.zipcode, infosData)
+        
     }
     
-    const getLocations = () => {
-    
+    const getLocations = (zipcode, infosData) => {
+        var locale = {};
+        for (loca of Locations){
+            if (zipcode == loca.zipcode){
+                locale.location = loca.location;
+            } 
+        }
+        userData = Object.assign(infosData,locale);
+        console.log(userData);
     }
     
     getUsers(getInfos);
