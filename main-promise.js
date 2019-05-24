@@ -115,9 +115,12 @@ $(function() {
     let userData = [];
     let userDataGeral = [];
     const getUsers = async (callback) => {
-        for (user of Users){ 
-            callback(user.email, user, getLocations)
-        }
+        return new Promise( (resolve, reject) => {
+            for (user of Users){ 
+                callback(user.email, user, getLocations)
+            } 
+        });
+        
     }
     
     const getInfos = async (email, obj, callback) => {
@@ -144,7 +147,7 @@ $(function() {
         userData = Object.assign(infosData,locale);
         userDataGeral.push(userData);
     }
-    
+
     getUsers(getInfos);
     console.log(userDataGeral);
 });
