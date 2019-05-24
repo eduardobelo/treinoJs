@@ -114,23 +114,13 @@ const Locations = [
 $(function() {
     let userData = [];
     let userDataGeral = [];
-    const getUsers = (callback) => {
+    const getUsers = async (callback) => {
         for (user of Users){ 
-            ObjUser =
-                {
-                    'gender': user.gender, 
-                    'name': {
-                        'title': user.name.title,
-                        'first': user.name.first,
-                        'last': user.name.last
-                    },
-                    'email':user.email,
-                }
-            callback(user.email, ObjUser, getLocations) 
-        };
+            callback(user.email, user, getLocations)
+        }
     }
     
-    const getInfos = (email, obj, callback) => {
+    const getInfos = async (email, obj, callback) => {
         var infos = {}; 
         for (info of Infos){
             if(email == info.email) {
@@ -144,7 +134,7 @@ $(function() {
         
     }
     
-    const getLocations = (zipcode, infosData) => {
+    const getLocations = async (zipcode, infosData) => {
         var locale = {};
         for (loca of Locations){
             if (zipcode == loca.zipcode){
@@ -154,6 +144,7 @@ $(function() {
         userData = Object.assign(infosData,locale);
         userDataGeral.push(userData);
     }
+    
     getUsers(getInfos);
     console.log(userDataGeral);
 });
