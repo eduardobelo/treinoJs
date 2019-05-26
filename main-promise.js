@@ -114,40 +114,47 @@ const Locations = [
 $(function() {
     let userData = [];
     let userDataGeral = [];
-    const getUsers = async (callback) => {
+    const getUsers = async () => {
         return new Promise( (resolve, reject) => {
             for (user of Users){ 
-                callback(user.email, user, getLocations)
+                return resolve(user)
             } 
         });
         
     }
     
-    const getInfos = async (email, obj, callback) => {
-        var infos = {}; 
-        for (info of Infos){
-            if(email == info.email) {
-                infos.zipcode = info.zipcode;  
-                infos.picture = info.picture;    
-            }  
-        };
-        
-        let infosData = Object.assign(obj,infos);
-        callback(info.zipcode, infosData)
-        
+    const getInfos = async (emailUser) => {
+        return new Promise( (resolve, reject) => {
+            var infos = {}; 
+            for (info of Infos){
+                if(emailUser == info.email) {
+                    infos.zipcode = info.zipcode;  
+                    infos.picture = info.picture;    
+                }  
+            };
+            
+            let infosData = Object.assign(obj,infos);
+            return resolve(info.zipcode, infosData)
+        });
     }
     
     const getLocations = async (zipcode, infosData) => {
-        var locale = {};
-        for (loca of Locations){
-            if (zipcode == loca.zipcode){
-                locale.location = loca.location;
-            } 
-        }
-        userData = Object.assign(infosData,locale);
-        userDataGeral.push(userData);
+        return new Promise ( (resolve, reject) => {
+            var locale = {};
+            for (loca of Locations){
+                if (zipcode == loca.zipcode){
+                    locale.location = loca.location;
+                } 
+            }
+            userData = Object.assign(infosData,locale);
+            return resolve(userDataGeral.push(userData));
+        });
+        
     }
 
-    getUsers(getInfos);
+    getUsers().then( (user) => {
+        return console.log(user);
+    })
+    
     console.log(userDataGeral);
 });
