@@ -114,14 +114,10 @@ const Locations = [
 
    
 const getUsers = async () => {
-    let userData = [];
-    Users.forEach((user, index)=>{      
-        userData.push(user);
-    });   
-    return userData;
+    return Users;
 }
 
-const getInfos = async (userData) => {
+const getInfos = async (userData) => { 
     Infos.forEach((info, index) => {  
         if(userData[index].email == info.email) {
             userData[index].zipcode = info.zipcode;  
