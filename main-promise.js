@@ -124,18 +124,17 @@ getUsers().then( (userData) => {
             userData[index].picture = info.picture;    
         }  
     });
-    return getInfos(userData).then((userData) => {
-        Locations.forEach((loca, index)=>{  
-            if (userData[index].zipcode == loca.zipcode){
-                userData[index].location = loca.location;
-            } 
-        });
-        return getLocations(userData).then( (resultado) => {
-            return console.log(resultado);
-        });
-        
-    })
-})
+    return getInfos(userData)
+}).then((userData) => {
+    Locations.forEach((loca, index)=>{  
+        if (userData[index].zipcode == loca.zipcode){
+            userData[index].location = loca.location;
+        } 
+    });
+    return getLocations(userData)
+}).then( (resultado) => {
+    return console.log(resultado);
+});
 
    
     

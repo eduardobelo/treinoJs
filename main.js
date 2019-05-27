@@ -111,36 +111,37 @@ const Locations = [
     }
 ]
 
-let userData = [];
+
 let userDataGeral = [];
 const getUsers = async (callback) => {
     for (user of Users){ 
-        callback(user.email, user, getLocations)
+        callback(user, getLocations)
     }
 }
 
-const getInfos = async (email, obj, callback) => {
-    var infos = {}; 
+const getInfos = async (user, callback) => {
+    let userData = [];
+    userData = Object.assign(userData,user);
     for (info of Infos){
-        if(email == info.email) {
-            infos.zipcode = info.zipcode;  
-            infos.picture = info.picture;    
+        if(userData.email == info.email) {
+            // userData.zipcode = info.zipcode;  
+            // userData.picture = info.picture; 
+            userData = Object.assign(info,userData);   
         }  
     };
-    let infosData = Object.assign(obj,infos);
-    callback(info.zipcode, infosData)  
+    callback(userData)  
 }
 
-const getLocations = async (zipcode, infosData) => {
-    var locale = {};
+const getLocations = async (userData) => {
     for (loca of Locations){
-        if (zipcode == loca.zipcode){
-            locale.location = loca.location;
+        if (userData.zipcode == loca.zipcode){
+            userData.location = loca.location;
         } 
     }
-    userData = Object.assign(infosData,locale);
-    userDataGeral.push(userData);
+    return userDataGeral.push(userData);
+    
+
 }
 
 getUsers(getInfos);
-console.log(userDataGeral);
+console.log(userDataGeral)
