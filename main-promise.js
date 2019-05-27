@@ -113,53 +113,44 @@ const Locations = [
 
 $(function() {
     let userData = [];
-    let userDataGeral = [];
     const getUsers = async () => {
-        return new Promise( (resolve, reject) => {
-            // for (user of Users){
-                
-            // } 
-            return resolve(Users)
-        });
-        
+        return new Promise( (resolve, reject) => {        
+            for (user of Users){
+                userData.push(user);
+            }   
+            return resolve(userData)   
+        });   
     }
     
-    const getInfos = async (user) => {
+    const getInfos = async () => {
         return new Promise( (resolve, reject) => {
-            var infos = {}; 
-
             Infos.forEach((info, index)=>{  
-                if(user[index].email == info.email) {
-                    infos.zipcode = info.zipcode;  
-                    infos.picture = info.picture;    
+                if(userData[index].email == info.email) {
+                    userData[index].zipcode = info.zipcode;  
+                    userData[index].picture = info.picture;    
                 }  
             });
-            
-            let infosData = Object.assign(user,infos);
-            return resolve(infosData)
+            return resolve(userData)
         });
     }
     
-    const getLocations = async (zipcode, infosData) => {
+    const getLocations = async () => {
         return new Promise ( (resolve, reject) => {
-            var locale = {};
-            for (loca of Locations){
-                if (zipcode == loca.zipcode){
-                    locale.location = loca.location;
+            Locations.forEach((loca, index)=>{  
+                if (userData[index].zipcode == loca.zipcode){
+                    userData[index].location = loca.location;
                 } 
-            }
-            userData = Object.assign(infosData,locale);
-            return resolve(userDataGeral.push(userData));
+            });
+            return resolve(userData);
         });
         
     }
 
-
     getUsers().then( (user) => {
-        return getInfos(user).then((result) => {
-            
-            console.log(result);
-            return result;
+        return getInfos().then((result) => {
+            return getLocations().then( (resultado) => {
+                return console.log(resultado);
+            });
             
         })
     })
