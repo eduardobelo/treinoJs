@@ -116,25 +116,27 @@ $(function() {
     let userDataGeral = [];
     const getUsers = async () => {
         return new Promise( (resolve, reject) => {
-            for (user of Users){ 
-                return resolve(user)
-            } 
+            // for (user of Users){
+                
+            // } 
+            return resolve(Users)
         });
         
     }
     
-    const getInfos = async (emailUser) => {
+    const getInfos = async (user) => {
         return new Promise( (resolve, reject) => {
             var infos = {}; 
-            for (info of Infos){
-                if(emailUser == info.email) {
+
+            Infos.forEach((info, index)=>{  
+                if(user[index].email == info.email) {
                     infos.zipcode = info.zipcode;  
                     infos.picture = info.picture;    
                 }  
-            };
+            });
             
-            let infosData = Object.assign(obj,infos);
-            return resolve(info.zipcode, infosData)
+            let infosData = Object.assign(user,infos);
+            return resolve(infosData)
         });
     }
     
@@ -152,9 +154,17 @@ $(function() {
         
     }
 
+
     getUsers().then( (user) => {
-        return console.log(user);
+        return getInfos(user).then((result) => {
+            
+            console.log(result);
+            return result;
+            
+        })
     })
+
+   
     
-    console.log(userDataGeral);
+    
 });

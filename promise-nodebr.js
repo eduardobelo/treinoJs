@@ -37,7 +37,7 @@ obterEndereco = async (idUsuario) => {
 }
 
 obterUsuario().then( (usuario) => {
-            return obterTelefone(usuario.id)
+        return obterTelefone(usuario.id)
                 .then( (result) => {
                     return {
                         usuario: {
