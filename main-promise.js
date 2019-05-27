@@ -117,27 +117,27 @@ const getUsers = async () => {
     return Users;
 }
 
-const getInfos = async (userData) => { 
+const getInfos = async (userData) => {  
+    return userData;
+}
+
+const getLocations = async (userData) => {
+    return userData;   
+}
+
+getUsers().then( (userData) => {
     Infos.forEach((info, index) => {  
         if(userData[index].email == info.email) {
             userData[index].zipcode = info.zipcode;  
             userData[index].picture = info.picture;    
         }  
     });
-    return userData;
-}
-
-const getLocations = async (userData) => {
-    Locations.forEach((loca, index)=>{  
-        if (userData[index].zipcode == loca.zipcode){
-            userData[index].location = loca.location;
-        } 
-    });
-    return userData;   
-}
-
-getUsers().then( (userData) => {
     return getInfos(userData).then((userData) => {
+        Locations.forEach((loca, index)=>{  
+            if (userData[index].zipcode == loca.zipcode){
+                userData[index].location = loca.location;
+            } 
+        });
         return getLocations(userData).then( (resultado) => {
             return console.log(resultado);
         });
