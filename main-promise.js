@@ -111,51 +111,44 @@ const Locations = [
     }
 ]
 
-$(function() {
+
+   
+const getUsers = async () => {
     let userData = [];
-    const getUsers = async () => {
-        return new Promise( (resolve, reject) => {        
-            for (user of Users){
-                userData.push(user);
-            }   
-            return resolve(userData)   
-        });   
-    }
-    
-    const getInfos = async () => {
-        return new Promise( (resolve, reject) => {
-            Infos.forEach((info, index)=>{  
-                if(userData[index].email == info.email) {
-                    userData[index].zipcode = info.zipcode;  
-                    userData[index].picture = info.picture;    
-                }  
-            });
-            return resolve(userData)
-        });
-    }
-    
-    const getLocations = async () => {
-        return new Promise ( (resolve, reject) => {
-            Locations.forEach((loca, index)=>{  
-                if (userData[index].zipcode == loca.zipcode){
-                    userData[index].location = loca.location;
-                } 
-            });
-            return resolve(userData);
+    Users.forEach((user, index)=>{      
+        userData.push(user);
+    });   
+    return userData;
+}
+
+const getInfos = async (userData) => {
+    Infos.forEach((info, index) => {  
+        if(userData[index].email == info.email) {
+            userData[index].zipcode = info.zipcode;  
+            userData[index].picture = info.picture;    
+        }  
+    });
+    return userData;
+}
+
+const getLocations = async (userData) => {
+    Locations.forEach((loca, index)=>{  
+        if (userData[index].zipcode == loca.zipcode){
+            userData[index].location = loca.location;
+        } 
+    });
+    return userData;   
+}
+
+getUsers().then( (userData) => {
+    return getInfos(userData).then((userData) => {
+        return getLocations(userData).then( (resultado) => {
+            return console.log(resultado);
         });
         
-    }
-
-    getUsers().then( (user) => {
-        return getInfos().then((result) => {
-            return getLocations().then( (resultado) => {
-                return console.log(resultado);
-            });
-            
-        })
     })
+})
 
    
     
     
-});
