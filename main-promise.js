@@ -113,17 +113,9 @@ const Locations = [
 
 
    
-const getUsers = async () => {
-    return Users;
-}
-
-const getInfos = async (userData) => {  
-    return userData;
-}
-
-const getLocations = async (userData) => {
-    return userData;   
-}
+const getUsers = async () => Users;
+const getInfos = async (userData) => userData;
+const getLocations = async (userData) => userData;   
 
 getUsers().then( (userData) => {
     Infos.forEach((info, index) => {  
