@@ -114,24 +114,17 @@
     
     let lista = [];
     const getUsers = async (callback) => {
-        
-        // userData = Object.assign(Users,userData); 
         for (user of Users){
             callback(user);  
         }    
     }
     
     const getInfos = async (userData, callback) => {
-        //console.log('userDataAntes: ', userData);
         for (info of Infos){
             if(userData.email == info.email) {
-               // userData.zipcode = info.zipcode;  
-                //userData.picture = info.picture; 
                 userData = Object.assign(info,userData);   
             }  
         };
-        
-        // console.log('userDataDepois: ', userData);
         callback(userData)  
        
     }
@@ -143,20 +136,15 @@
             } 
         }
         lista.push(userData)
-        
         return callback(userData);
-        
     }
-    
-    
-    
-        getUsers( function (users) {
-            getInfos(users, function resolveInfos(infos)  {
-                getLocations(infos, function  resolveLocation(userData) {
-                    return lista;
-                })
+    getUsers( function (users) {
+        getInfos(users, function resolveInfos(infos)  {
+            getLocations(infos, function  resolveLocation(userData) {
+                return lista;
             })
-        });
-    
-        console.log(lista)
+        })
+    });
+
+    console.log(lista)
 })();
